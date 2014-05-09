@@ -1,7 +1,7 @@
 package main
 import "fmt"
 
-func fib(n int) int {
+func Fib(n int) int {
   if n <= 0 {
     return 0
   }
@@ -12,5 +12,5 @@ func fib(n int) int {
 }
 
 func main() {
-  fmt.Println(fib(5))
+  fmt.Println(Fib(5))
 }
