@@ -10,6 +10,6 @@ func FibTest(t *testing.T) {
 
 func assert(in int, out int, t *testing.T) {
   if x := Fib(in); x != out {
-    t.Errorf("Fib(%v) = %v, want %v", in, x, out)
+    t.Errorf("Fib(%v) = %v but got %v", in, out, x)
   }
 }
