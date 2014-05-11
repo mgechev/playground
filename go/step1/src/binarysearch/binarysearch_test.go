@@ -13,7 +13,7 @@ func TestBinarySearch(t *testing.T) {
 }
 
 func assert(array []int, target int, expected int, t *testing.T) {
-  if x := BinarySearch(array, target); x != expected {
+  if x := BinarySearch(&array, target); x != expected {
     t.Errorf("BinarySearch(array, %v) = %x not %v", target, expected)
   }
 }
