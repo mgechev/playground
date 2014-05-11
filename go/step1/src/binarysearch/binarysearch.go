@@ -3,7 +3,7 @@ import "fmt"
 
 func BinarySearch(array []int, target int) int {
   for min, max := 0, len(array) - 1; min <= max; {
-    mid := min + (max - min) / 2
+    mid := (max + min) / 2
     if array[mid] == target {
       return mid
     }
