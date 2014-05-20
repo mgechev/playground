@@ -1,10 +1,12 @@
 package main
 import "fmt"
 
-struct 2DVector {
+type Vector struct {
   X int
   Y int
 }
 
 func main() {
+  v := Vector{ 1, 2 }
+  fmt.Println(v.X)
 }
