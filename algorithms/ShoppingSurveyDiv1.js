@@ -1,4 +1,5 @@
 /* global console */
+// Solution of http://community.topcoder.com/stat?c=problem_statement&pm=13455
 
 var combinations = (function () {
   'use strict';
