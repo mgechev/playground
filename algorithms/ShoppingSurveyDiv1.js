@@ -62,7 +62,6 @@ function getAllBestShoppers(deals, currentDeals, current, shoppers, K) {
   }
 }
 
-
 function minValue(N, K, s) {
   'use strict';
   var combinations = [];
