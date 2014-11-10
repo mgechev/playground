@@ -1,3 +1,5 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=13506&rd=16080
+
 var Colors = {
   WHITE: '.',
   BLACK: '#'
