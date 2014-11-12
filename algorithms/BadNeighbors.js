@@ -40,7 +40,6 @@ function maxDonations(donations) {
       result[i] = result[maxIdx].concat(result[i]);
     }
   }
-  console.log(result);
   var max = result.reduce(function (s, el) {
     if (sum(el) > s) {
       return sum(el);
