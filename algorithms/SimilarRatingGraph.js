@@ -35,13 +35,13 @@ function compareFloats(a, b) {
 function compare(ratio, a, b, a1, b1, rating, date) {
   'use strict';
   var startR = rating[a],
-        endR = rating[b],
-        startD = date[a],
-        endD = date[b],
-        startR1 = rating[a1],
-        endR1 = rating[b1],
-        startD1 = date[a1],
-        endD1 = date[b1];
+      endR = rating[b],
+      startD = date[a],
+      endD = date[b],
+      startR1 = rating[a1],
+      endR1 = rating[b1],
+      startD1 = date[a1],
+      endD1 = date[b1];
   if (!compareFloats((endR1 - startR1) / (endR - startR), ratio)) {
     return false;
   }
