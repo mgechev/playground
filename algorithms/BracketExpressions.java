@@ -1,3 +1,5 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=13243
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
