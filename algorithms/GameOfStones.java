@@ -1,3 +1,4 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=13480
 public class GameOfStones {
     private static int maxIterations(int[] stones) {
         return stones[getMaxIndex(stones)] / 2 * stones.length;
