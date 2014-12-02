@@ -1,3 +1,5 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=1592&rd=4482
+// Could be optimized to use DP for counting the number of paths.
 public class ChessMetric {
     private static int getIndex(int top, int left, int size) {
         return top * size + left;
