@@ -1,7 +1,9 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=13416
+// Warning! The solution seems slightly wrong.
 import java.util.LinkedList;
 import java.util.List;
 
-public class LonglongestPathTree {  
+public class LonglongestPathTree {
     private boolean isTree(int[][] matrix) {
         boolean[] visited = new boolean[matrix.length];
         LinkedList<Integer> stack = new LinkedList<Integer>();
