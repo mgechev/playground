@@ -1,22 +1,30 @@
 // TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=13416
-// Warning! The solution seems slightly wrong.
 import java.util.LinkedList;
 import java.util.List;
 
 public class LonglongestPathTree {
     private boolean isTree(int[][] matrix) {
-        boolean[] visited = new boolean[matrix.length];
-        LinkedList<Integer> stack = new LinkedList<Integer>();
-        int current;
-        stack.push(0);
-        while (stack.size() != 0) {
-            current = stack.pop();
-            if (visited[current])
-                return false;
-            visited[current] = true;
-            for (int j = 0; j < matrix[current].length; j += 1) {
-                if (!visited[current] && matrix[current][j] != 0) {
-                    stack.push(j);
+        // in case we have not connected graph
+        for (int i = 0; i < matrix.length; i += 1) {
+            boolean[] visited = new boolean[matrix.length];
+            int[] parents = new int[matrix.length];
+            for (int j = 0; j < parents.length; j += 1) {
+                parents[j] = -1;
+            }
+            LinkedList<Integer> stack = new LinkedList<Integer>();
+            int current;
+            stack.push(i);
+            while (stack.size() != 0) {
+                current = stack.pop();
+                visited[current] = true;
+                for (int j = 0; j < matrix[current].length; j += 1) {
+                    if (matrix[current][j] != 0 && !visited[j]) {
+                        if (parents[j] != -1 && parents[j] != current) {
+                            return false;
+                        }
+                        parents[j] = current;
+                        stack.push(j);
+                    }
                 }
             }
         }
@@ -107,10 +115,16 @@ public class LonglongestPathTree {
 //        int[] A = {1,5,6,4,4,0,3,3};
 //        int[] B = {6,6,4,8,0,3,2,7};
 //        int[] L = {1,1,1,1,1,1,1,1};
-        int[] A = {0,1,2,3,0,1,2,3,4};
-        int[] B = {1,2,3,4,5,6,7,8,9};
-        int[] L = {10,1,1,10,10,1000,100,1000,10};
-        LonglongestPathTree tree = new LonglongestPathTree();
-        System.out.println(tree.getLength(A, B, L));
+//        int[] A = {0,1,2,3,0,1,2,3,4};
+//        int[] B = {1,2,3,4,5,6,7,8,9};
+//        int[] L = {10,1,1,10,10,1000,100,1000,10};
+//        LonglongestPathTree tree = new LonglongestPathTree();
+//        System.out.println(tree.getLength(A, B, L));
+//        int[] A = {3,0,0};
+//        int[] B = {1,2,3};
+//        int[] L = {2,4,8};
+//        LonglongestPathTree tree = new LonglongestPathTree();
+//        System.out.println(tree.isTree(tree.buildMatrix(A, B, L)));
     }
+
 }
