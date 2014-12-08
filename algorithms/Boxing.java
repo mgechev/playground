@@ -1,6 +1,4 @@
 // TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=2977
-// NOTE that the solution is incomplete
-// more information in the comments bellow.
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,15 +26,23 @@ public class Boxing {
         int totalRefs = 0;
         List<Integer[]> intervals = new LinkedList<Integer[]>();
         boolean[] refs = new boolean[5];
-        // Note that the referees could be out of sync with the current interval
-        // so when we increment the beginning (start) in the first nested loop
-        // we can skip a referee which we have already counted.
-        // Basically the solution works only for the sample data and needs
-        // a little tuning in order to work in the general case.
+
         for (int i = 0; i < credits.size(); i += 1) {
             current = credits.get(i);
+            int oldStart = start;
             while (current.getTimestamp() - credits.get(start).getTimestamp() > 1000 && start < i) {
                 start += 1;
+            }
+            if (oldStart != start) {
+                refs = new boolean[5];
+                totalRefs = 0;
+                for (int j = start; j < i; j += 1) {
+                    Credit temp = credits.get(j);
+                    if (!refs[temp.getReferee()]) {
+                        refs[temp.getReferee()] = true;
+                        totalRefs += 1;
+                    }
+                }
             }
             if (!refs[current.getReferee()]) {
                 refs[current.getReferee()] = true;
@@ -60,11 +66,11 @@ public class Boxing {
 
     public static void main(String[] args) {
         Boxing boxing = new Boxing();
-//        int[] a = new int[]{1,2,3,4,5,6};
-//        int[] b = new int[]{1,2,3,4,5,6,7};
-//        int[] c = new int[]{1,2,3,4,5,6};
-//        int[] d = new int[]{0,1,2};
-//        int[] e = new int[]{1,2,3,4,5,6,7,8};
+        int[] a = new int[]{1,2,3,4,5,6};
+        int[] b = new int[]{1,2,3,4,5,6,7};
+        int[] c = new int[]{1,2,3,4,5,6};
+        int[] d = new int[]{0,1,2};
+        int[] e = new int[]{1,2,3,4,5,6,7,8};
 
 //        int[] a = new int[]{100,200,300,1200,6000};
 //        int[] b = new int[]{};
@@ -72,11 +78,11 @@ public class Boxing {
 //        int[] d = new int[]{0,2000,6002};
 //        int[] e = new int[]{1,2,3,4,5,6,7,8};
 
-        int[] a = new int[]{5000,6500};
-        int[] b = new int[]{6000};
-        int[] c = new int[]{6500};
-        int[] d = new int[]{6000};
-        int[] e = new int[]{0,5800,6000};
+//        int[] a = new int[]{5000,6500};
+//        int[] b = new int[]{6000};
+//        int[] c = new int[]{6500};
+//        int[] d = new int[]{6000};
+//        int[] e = new int[]{0,5800,6000};
 
         System.out.println(boxing.maxCredit(a, b, c, d, e));
     }
