@@ -1,3 +1,7 @@
+// TopCoder http://community.topcoder.com/stat?c=problem_statement&pm=2977
+// NOTE that the solution is incomplete
+// more information in the comments bellow.
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
