@@ -86,5 +86,4 @@ public class Boxing {
 
         System.out.println(boxing.maxCredit(a, b, c, d, e));
     }
-
 }
