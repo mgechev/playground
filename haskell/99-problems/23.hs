@@ -6,6 +6,5 @@ import Control.Monad (replicateM)
 randSelect [] _  = return []
 randSelect lst n
   | n < 0     = error "Invalid argument"
-  | otherwise = do pos <- replicateM n $
-                              getStdRandom $ randomR (0, (length lst) - 1)
+  | otherwise = do pos <- replicateM n $ getStdRandom $ randomR (0, (length lst) - 1)
                    return [ lst !! p | p <- pos ]
