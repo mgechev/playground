@@ -3,16 +3,58 @@ import {TOKEN_TYPES} from './lex';
 
 # Grammer
 
-expr := additive
+program := expression*
+expression := conditional | loop | assignment | print
+conditional := if (assignment) { assignment }
+loop := while (assignment) { assignment }
+assignment := (identifier '=')? additive ';'
 additive := multiplicative ((+|-) multiplicative)*
 multiplicative := term ((*|/) term)*
-term := (expr) | num | -num
+term := (additive) | num | identifier | -(additive)
 
 */
 
 class AST {
   constructor(token) {
     this.token = token;
+  }
+}
+
+export class Print extends AST {
+  constructor(token, expr) {
+    super(token);
+    this.expression = expr;
+  }
+}
+
+export class If extends AST {
+  constructor(token, cond, expr) {
+    super(token);
+    this.condition = cond;
+    this.expressions = expr;
+  }
+}
+
+export class While extends AST {
+  constructor(token, cond, expr) {
+    super(token);
+    this.condition = cond;
+    this.expressions = expr;
+  }
+}
+
+export class Identifier extends AST {
+  constructor(token) {
+    super(token);
+    this.id = token.lexeme;
+  }
+}
+
+export class Assignment extends AST {
+  constructor(token, identifier, binOp) {
+    super(token);
+    this.id = identifier;
+    this.expression = binOp;
   }
 }
 
@@ -29,6 +71,14 @@ export class Num extends AST {
   constructor(token) {
     super(token);
     this.num = token.lexeme;
+  }
+}
+
+export class UnaryOp extends AST {
+  constructor(token, right) {
+    super(token);
+    this.operator = token.lexeme;
+    this.right = right;
   }
 }
 
@@ -49,54 +99,138 @@ export class Parser {
   back() {
     this.pos -= 1;
   }
-  parse() {
-    return this.parseExpr();
+  eat(lexeme) {
+    let c = this.current();
+    if (this.end()) {
+      throw new Error(`Expecting "${lexeme}" but reached the end.`);
+    }
+    if (c.lexeme !== lexeme) {
+      throw new Error(`Unexpected token "${c.lexeme}". Expected "${lexeme}" on (${c.row}, ${c.col}).`);
+    }
+    this.advance();
   }
-  parseExpr() {
-    return this.parseAdditive();
+  lookAhead(lexeme, type) {
+    this.advance();
+    let c = this.current();
+    if (c.lexeme === lexeme && c.token === type) {
+      this.back();
+      return true;
+    }
+    this.back();
+    return false;
   }
-  // 1 + 2
-  parseAdditive() {
+  parseProgram() {
+    let expressions = [];
     while (!this.end()) {
-      let left = this.parseMultiplicative();
-      let op = this.current();
+      expressions.push(this.parseExpression());
+    }
+    return expressions;
+  }
+  parseExpression() {
+    let c = this.current();
+    if (c.lexeme === 'if') {
+      return this.parseIf();
+    } else if (c.lexeme === 'while') {
+      return this.parseWhile();
+    } else if (c.lexeme === 'print') {
+      return this.parsePrint();
+    } else {
+      return this.parseAssignment();
+    }
+  }
+  parseIf() {
+    return this.parseBlockStatement(If, 'if');
+  }
+  parseWhile() {
+    return this.parseBlockStatement(While, 'while');
+  }
+  parseBlockStatement(ctr, op) {
+    let token = this.current();
+    this.eat(op);
+    this.eat('(');
+    let condition = this.parseAssignment();
+    this.eat(')');
+    this.eat('{');
+    let c = this.current();
+    let body = [];
+    while (c.lexeme !== '}' && !this.end()) {
+      body.push(this.parseExpression());
+      c = this.current();
+    }
+    this.eat('}');
+    return new ctr(token, condition, body);
+  }
+  parsePrint() {
+    let token = this.current();
+    this.eat('print');
+    let expr = this.parseAssignment();
+    return new Print(token, expr);
+  }
+  parseAssignment() {
+    let c = this.current();
+    if (c.token === TOKEN_TYPES.IDENTIFIER && this.lookAhead('=', TOKEN_TYPES.OPERATOR)) {
+      let id = c;
       this.advance();
-      if (op && (op.lexeme === '+' || op.lexeme === '-')) {
-        let right = this.parseMultiplicative();
-        return new BinOp(op, left, right);
+      let token = this.current();
+      this.eat('=');
+      let result = this.parseAdditive();
+      this.eat(';');
+      return new Assignment(token, new Identifier(id), result);
+    } else {
+      let res = this.parseAdditive();
+      this.eat(';');
+      return res;
+    }
+  }
+  parseAdditive() {
+    let c = this.current();
+    let left = this.parseMultiplicative();
+    let result = left;
+    let op = this.current();
+    while (!this.end() && op.lexeme !== ';') {
+      op = this.current();
+      if (op && op.lexeme !== ';' && (op.lexeme === '+' || op.lexeme === '-')) {
+        this.advance();
+        result = new BinOp(op, left, this.parseMultiplicative());
       } else {
-        this.back();
-        return left;
+        break;
       }
     }
+    return result;
   }
   parseMultiplicative() {
-    while (!this.end()) {
-      let left = this.parseTerm();
-      let op = this.current();
-      this.advance();
-      if (op && (op.lexeme === '*' || op.lexeme === '/')) {
-        let right = this.parseTerm();
-        return new BinOp(op, left, right);
+    let c = this.current();
+    let left = this.parseTerm();
+    let result = left;
+    let op = this.current();
+    while (!this.end() && op.lexeme !== ';') {
+      op = this.current();
+      if (op && op.lexeme !== ';' && (op.lexeme === '*' || op.lexeme === '-')) {
+        this.advance();
+        result = new BinOp(op, left, this.parseTerm());
       } else {
-        this.back();
-        return left;
+        break;
       }
     }
+    return result;
   }
   parseTerm() {
-    let current = this.current();
+    let c = this.current();
+    this.advance();
     let result;
-    if (current.lexeme === '(') {
-      this.advance();
-      result = this.parseExpr();
-      this.advance();
-    } else if (typeof current.lexeme === 'number') {
-      this.advance();
-      result = new Num(current);
-    } else if (current.lexeme === '-') {
-      this.advance();
-      result = new Num(-this.current().lexeme);
+    if (c.lexeme === '(') {
+      result = this.parseAdditive();
+      this.eat(')');
+    } else if (c.lexeme === '-') {
+      result = new UnaryOp(c, this.parseAdditive());
+    } else {
+      if (c.token === TOKEN_TYPES.IDENTIFIER) {
+        result = new Identifier(c);
+      } else if (c.token === TOKEN_TYPES.NUM) {
+        result = new Num(c);
+      } else {
+        throw new Error('Unexpected token');
+      }
     }
     return result;
   }
