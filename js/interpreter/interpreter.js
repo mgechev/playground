@@ -1,3 +1,7 @@
+/**
+ * The Lilly mini-programming language.
+ * Turing complete so it'll rule the world!
+ */
 import {BinOp, Num, If, While, Assignment, UnaryOp, Print, Identifier} from './parser';
 
 export class Interpreter {
@@ -88,5 +92,4 @@ export class Interpreter {
     }
   }
 }
-
 
