@@ -3,10 +3,10 @@ import {Parser} from './parser';
 import {Interpreter} from './interpreter';
 
 let program = `
-  a = 42;
+  a = -42;
   while (a;) {
     print a;
-    a = a - 1;
+    a = a + 1;
   }
 `;
 let lexer = new Lexer(program);

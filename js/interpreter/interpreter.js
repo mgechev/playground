@@ -62,7 +62,7 @@ export class Interpreter {
   visitUnaryOp(ast) {
     let operator = ast.operator;
     if (operator === '-') {
-      return - this.visit(ast);
+      return - this.visit(ast.right);
     }
   }
   visitIdentifier(ast) {
