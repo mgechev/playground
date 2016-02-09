@@ -191,7 +191,7 @@ export class Parser {
       op = this.current();
       if (op && op.lexeme !== ';' && (op.lexeme === '+' || op.lexeme === '-')) {
         this.advance();
-        result = new BinOp(op, left, this.parseMultiplicative());
+        result = new BinOp(op, left, this.parseAdditive());
       } else {
         break;
       }
@@ -207,7 +207,7 @@ export class Parser {
       op = this.current();
       if (op && op.lexeme !== ';' && (op.lexeme === '*' || op.lexeme === '-')) {
         this.advance();
-        result = new BinOp(op, left, this.parseTerm());
+        result = new BinOp(op, left, this.parseMultiplicative());
       } else {
         break;
       }
@@ -229,7 +229,7 @@ export class Parser {
       } else if (c.token === TOKEN_TYPES.NUM) {
         result = new Num(c);
       } else {
-        throw new Error('Unexpected token');
+        throw new Error(`Unexpected token on (${c.row}, ${c.col}). Expecting term but got "${c.lexeme}".`);
       }
     }
     return result;
