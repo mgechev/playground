@@ -58,7 +58,7 @@ export class Lexer {
     return /^\d$/.test(this.currentChar());
   }
   isOperator() {
-    return /^[*/+-=]$/.test(this.currentChar());
+    return /^[*/+-=%]$/.test(this.currentChar());
   }
   isPar() {
     return /^\(|\)$/.test(this.currentChar());

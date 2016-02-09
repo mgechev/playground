@@ -205,7 +205,7 @@ export class Parser {
     let op = this.current();
     while (!this.end() && op.lexeme !== ';') {
       op = this.current();
-      if (op && op.lexeme !== ';' && (op.lexeme === '*' || op.lexeme === '-')) {
+      if (op && op.lexeme !== ';' && (op.lexeme === '*' || op.lexeme === '-' || op.lexeme === '%')) {
         this.advance();
         result = new BinOp(op, left, this.parseMultiplicative());
       } else {

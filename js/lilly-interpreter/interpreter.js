@@ -89,6 +89,9 @@ export class Interpreter {
       case '*':
         return this.visit(ast.left) * this.visit(ast.right);
         break;
+      case '%':
+        return this.visit(ast.left) % this.visit(ast.right);
+        break;
     }
   }
 }
