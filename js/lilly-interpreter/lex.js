@@ -131,7 +131,6 @@ export class Lexer {
       } else if (this.isNewline()) {
         this.row += 1;
         this.col = 0;
-        this.advance();
       } else if (this.isSemicolon()) {
         token = new Token(TOKEN_TYPES.SEMICOLON, ';', col, this.row);
       } else if (this.isBlockPar()) {
