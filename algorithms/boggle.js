@@ -1,3 +1,5 @@
+// https://www.geeksforgeeks.org/boggle-set-2-using-trie/
+
 const matrix = [['G','I','Z'],
                 ['U','E','K'],
                 ['Q','S','E']];
