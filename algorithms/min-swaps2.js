@@ -1,3 +1,5 @@
+// https://www.geeksforgeeks.org/minimum-number-of-swaps-required-for-arranging-pairs-adjacent-to-each-other/
+
 const pairs = {
   1: 3,
   3: 1,
