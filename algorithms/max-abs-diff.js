@@ -1,4 +1,5 @@
 // https://www.geeksforgeeks.org/maximum-absolute-difference-between-sum-of-two-contiguous-sub-arrays/
+// Use Kadane Algorithm to reduce the complexity to O(n)
 
 const a = [-2, -3, 4, -1, -2, 1, 5, -3];
 
