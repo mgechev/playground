@@ -9,7 +9,6 @@ const swap = (a, i, j) => {
 };
 
 const sort = a => {
-  debugger;
   let m = -1;
   for (let i = 0; i < a.length; i += 1) {
     if (a[i] === Marker) {
