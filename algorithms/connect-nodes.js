@@ -30,8 +30,6 @@ const bst = new Node(
   )
 );
 
-
-
 const helper = (n, m, h = 0) => {
   if (!n) {
     return;
@@ -52,7 +50,27 @@ const connect = n => {
   });
 };
 
-connect(bst);
+const connectBFS = n => {
+  let q = [n];
+  while (q.length) {
+    let next = [];
+    let c = q.shift();
+    while (c) {
+      if (c.left) {
+        next.push(c.left);
+      }
+      if (c.right) {
+        next.push(c.right);
+      }
+      const s = q.shift();
+      c.next = s || null;
+      c = s;
+    }
+    q = next;
+  }
+};
+
+connectBFS(bst);
 
 console.log(bst);
 
