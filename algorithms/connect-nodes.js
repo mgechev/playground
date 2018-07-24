@@ -50,6 +50,8 @@ const connect = n => {
   });
 };
 
+// Alternative of the two queues
+// is to use `null` as a separator.
 const connectBFS = n => {
   let q = [n];
   while (q.length) {
