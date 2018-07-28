@@ -1,3 +1,5 @@
+// https://www.geeksforgeeks.org/word-break-problem-using-backtracking/
+
 const words = new Set(['i', 'like', 'sam', 'sung', 'samsung', 'mobile', 'ice', 'cream', 'icecream', 'man', 'go', 'mango']);
 
 const canBreak = (w, s, i = 0, memo = {}) => {
