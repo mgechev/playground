@@ -23,4 +23,5 @@ const maxValue = (v, w, t, s = 0, m = {}) => {
 };
 
 console.log(maxValue(v, w, W));
+console.log(maxValue([10, 30, 20], [5, 10, 15], 100));
 
