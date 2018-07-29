@@ -1,6 +1,7 @@
 // https://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/
 
 const a = ['baa', 'abcd', 'abca', 'cab', 'cad'];
+const b = ['caa', 'aaa', 'aab'];
 
 const helper = (graph, k, result, visited, tmp) => {
   if (visited[k]) {
@@ -48,4 +49,5 @@ const letterOrdering = a => {
 };
 
 console.log(letterOrdering(a));
+console.log(letterOrdering(b));
 
