@@ -38,6 +38,21 @@ const drawLine = (canvas, s, e) => {
   draw(canvas, e[0], e[1], 1);
 };
 
-drawLine(arr, [1, 4], [9, 6]);
+const drawLineNaive = (canvas, [x1, y1], [x2, y2]) => {
+  const diff = Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
+  const sx = Math.abs(x2 - x1) > diff ? diff / (x2 - x1) : (x2 - x1) / diff;
+  const sy = Math.abs(y2 - y1) > diff ? diff / (y2 - y1) : (y2 - y1) / diff;
+  let xs = x1;
+  let ys = y1;
+  while (Math.floor(xs) !== x2 || Math.floor(ys) !== y2) {
+    draw(canvas, Math.floor(xs), Math.floor(ys), 1);
+    xs += sx;
+    ys += sy;
+  }
+  draw(canvas, x2, y2, 1);
+};
+
+drawLine(arr, [1, 4], [9, 9]);
+drawLineNaive(arr, [1, 4], [9, 1]);
 console.log(arr.map(r => r.join(' ')).join('\n'));
 
