@@ -1,6 +1,6 @@
 // https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
 
-// Also you can avoid floating point arithmetics.
+// Also you can avoid floating point arithmetics with Bresenham.
 const arr = [[0,0,0,0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0,0,0,0],
@@ -54,5 +54,6 @@ const drawLineNaive = (canvas, [x1, y1], [x2, y2]) => {
 
 drawLine(arr, [1, 4], [9, 9]);
 drawLineNaive(arr, [1, 4], [9, 1]);
+
 console.log(arr.map(r => r.join(' ')).join('\n'));
 
