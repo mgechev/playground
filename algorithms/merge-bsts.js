@@ -8,20 +8,11 @@ class Node {
   }
 }
 
-Node.prototype[Symbol.iterator] = function* () {
-  function* traverse(node) {
-    if (!node) yield ({ done: true, value: undefined });
-    if (node.left) {
-      yield* traverse(node.left);
-    }
-    yield node.data;
-    if (node.right) {
-      yield* traverse(node.right);
-    }
-  }
-  for (const val of traverse(this)) {
-    yield val;
-  }
+Node.prototype[Symbol.iterator] = function* (node = this) {
+  if (!node) yield { done: true, value: undefined };
+  if (node.left) yield* this[Symbol.iterator](node.left);
+  yield node.data;
+  if (node.right) yield* this[Symbol.iterator](node.right);
 };
 
 const bst1 = new Node(
