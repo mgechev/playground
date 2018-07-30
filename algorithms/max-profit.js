@@ -1,8 +1,8 @@
 // https://www.geeksforgeeks.org/maximum-profit-by-buying-and-selling-a-share-at-most-k-times/
 
-const maximizeProfit = (arr, k, idx = 0, start = undefined, memo = {}) => {
+const maximizeProfit = (arr, k, idx = 0, memo = {}) => {
   memo[idx] = memo[idx] || [];
-  if (memo[idx][k] !== undefined && start !== undefined) {
+  if (memo[idx][k] !== undefined) {
     return memo[idx][k];
   }
   if (!k) return 0;
@@ -10,14 +10,12 @@ const maximizeProfit = (arr, k, idx = 0, start = undefined, memo = {}) => {
     return 0;
   }
   let total = 0;
-  for (let i = idx; i < arr.length; i += 1) {
+  for (let i = idx; i < arr.length - 1; i += 1) {
     let sum = 0;
-    if (start === undefined) {
-      sum = maximizeProfit(arr, k, i + 1, arr[i], memo);
-    } else {
-      sum = (arr[i] - start) + maximizeProfit(arr, k - 1, i + 1, undefined, memo);
+    for (let j = i + 1; j < arr.length; j += 1) {
+      sum = (arr[j] - arr[i]) + maximizeProfit(arr, k - 1, j + 1, memo);
+      total = Math.max(total, sum);
     }
-    total = Math.max(total, sum);
   }
   memo[idx][k] = total;
   return total;
