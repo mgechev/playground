@@ -1,7 +1,5 @@
-/**
- * @param {string} s
- * @return {string}
- */
+// https://leetcode.com/problems/decode-string/
+
 var decodePart = (s, start) => {
     let result = '';
     while (/[A-Za-z]/.test(s[start]) && start < s.length) {
