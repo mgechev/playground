@@ -51,4 +51,5 @@ console.log(longestValidSubstr(')()())'));
 console.log(longestEfficient(')()())'));
 console.log(longestValidSubstr('((()'));
 console.log(longestEfficient('((()'));
+console.log(longestEfficient('))((((((((((((((((('));
 
