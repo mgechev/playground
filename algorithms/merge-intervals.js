@@ -10,6 +10,7 @@ const merge = intr => {
       const n = [f.start, Math.max(f.end, s.end)];
       intr[i + 1] = n;
       intr.splice(i, 1);
+      i--;
     }
   }
   return intr;
