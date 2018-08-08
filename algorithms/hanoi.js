@@ -20,4 +20,5 @@ const hanoi2 = (s1, s2, s3, n) => {
 
 // hanoi('s1', 's2', 's3', 3);
 console.log(hanoi2('s1', 's2', 's3', 3));
+console.log(hanoi('s1', 's2', 's3', 3));
 
