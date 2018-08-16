@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/subarray-sum-equals-k/description/
+
 const subarraySum2 = (nums, k) => {
   let total = 0;
   for (let i = 0; i < nums.length; i++) {
@@ -30,10 +32,7 @@ const subarraySum = (nums, k) => {
   return total;
 };
 
-
-
-console.log(subarraySum([1,1,1], 2));
-console.log(subarraySum([1,2,3], 3));
-console.log(subarraySum([28,54,7,-70,22,65,-6], 100));
+console.log(subarraySum([1, 1, 1], 2));
+console.log(subarraySum([1, 2, 3], 3));
+console.log(subarraySum([28, 54, 7, -70, 22, 65, -6], 100));
 console.log(subarraySum([0, 0, 0], 0));
-
