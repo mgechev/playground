@@ -10,14 +10,8 @@ const search = (n, t) => {
     }
     if (n[mid] > t && n[left] > t) {
       left += 1;
-      if (n[left] === t) {
-        return left;
-      }
     } else if (n[mid] < t && n[right - 1] < t) {
       right -= 1;
-      if (n[right] === t) {
-        return right;
-      }
     } else if (n[mid] > t) {
       right = mid;
     } else {
