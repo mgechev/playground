@@ -13,13 +13,10 @@ class Heap {
     this._data.push(n);
     const d = this._data;
     let idx = d.length - 1;
-    let par = Math.floor(idx / 2 - 0.5);
-    while (par >= 0) {
-      if (d[idx] < d[par]) {
-        swap(d, idx, par);
-      }
+    let par = Math.floor(idx / 2);
+    while (par >= 0 && d[idx] < d[par]) {
       const oldPar = par;
-      par = Math.floor(idx / 2 - 0.5);
+      par = Math.floor(idx / 2);
       idx = oldPar;
     }
   }
