@@ -32,18 +32,14 @@ const helper = (n, left, right, root, res, current = root) => {
     return;
   }
 
-  let cur = current.right;
-  helper(n, left, right + 2, root, res, cur);
+  helper(n, left, right + 2, root, res, current.right);
 
-  cur = current.left;
-  helper(n, left + 2, right + 2, root, res, cur);
+  helper(n, left + 2, right + 2, root, res, current.left);
   current.left = new TreeNode(0);
 
   // Backtrack
   current.right = new TreeNode(0);
-  helper(n, left + 2, right, root, res, cur);
-
-  current.left = new TreeNode(0);
+  helper(n, left + 2, right, root, res, current.left);
 };
 
 const allPossibleFBT = n => {
@@ -61,3 +57,6 @@ const allPossibleFBT = n => {
 console.log(allPossibleFBT(9).length);
 console.log(allPossibleFBT(7).length);
 // console.log(JSON.stringify(allPossibleFBT(9), null, 2));
+
+// [0,0,0,0,0,0,0,null,null,null,null,null,null,0,0]
+// [0,0,0,0,0,0,0,null,null,null,null,0,0]
