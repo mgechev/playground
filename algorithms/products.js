@@ -18,5 +18,18 @@ const productExceptSelf = a => {
   return out;
 };
 
+const productExceptSelfFaster = a => {
+  const result = [1];
+  for (let i = 0; i < a.length - 1; i++) {
+    result.push(result[i] * a[i]);
+  }
+  let last = 1;
+  for (let i = a.length - 1; i >= 0; i--) {
+    result[i] *= last;
+    last *= a[i];
+  }
+  return result;
+};
+
 console.log(productExceptSelf([1,2,3,4]));
 
