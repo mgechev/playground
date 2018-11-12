@@ -11,14 +11,17 @@ const fill = (g, a, b, c = a, visited = [], res = 1) => {
   visited[c] = true;
   Object.keys(g[c])
     .forEach(k =>
-      g[c][k] !== undefined ? fill(g, a, b, k, visited, res * g[c][k]) : void 0);
+      g[c][k] !== undefined ?
+        fill(g, a, b, k, visited, res * g[c][k]) :
+        void 0);
 };
 
 const transitiveClosure = g => {
   Object.keys(g).forEach(a => 
     Object.keys(g[a])
       .forEach(b =>
-        g[a][b] === undefined ? fill(g, a, b) : void 0)
+        g[a][b] === undefined ? fill(g, a, b) :
+        void 0)
   );
 };
 
