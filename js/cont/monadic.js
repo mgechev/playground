@@ -3,7 +3,7 @@
 
 const runCont = (c, f) => c(f);
 const ret = a => f => f(a);
-const bind = (m, k) => c => runCont(m, a => runCont(k, a))(c);
+const bind = (m, k) => c => runCont(m, a => runCont(k, a)(c));
 
 const add = (a, b) => a + b;
 const add_cps = (a, b) => ret(add(a, b));
