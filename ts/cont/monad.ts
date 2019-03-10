@@ -1,24 +1,28 @@
 class Cont<T> {
-  constructor(private v: T) {}
+  constructor(private v: () => T) {}
 
-  bind(k: (x: T) => Cont<T>) {
-    return this.runCont(a => k(a));
+  bind(k: (x: T) => Cont<T>): any {
+    return new Cont(() => this.runCont(a => k(a)));
   }
 
   runCont<R>(f: (x: T) => R): R {
-    return f(this.v);
+    let res = this.v() as any;
+    while (typeof res.runCont === 'function') {
+      res = res.v();
+    }
+    return f(res);
   }
 
   static return<T>(v: T) {
-    return new Cont<T>(v);
+    return new Cont<T>(() => v);
   }
 }
 
 const addNum = (a: number, b: number) => a + b;
-const addCPS = (a: number, b: number) => new Cont(addNum(a, b));
+const addCPS = (a: number, b: number) => new Cont(() => addNum(a, b));
 
 const squareNum = (a: number) => a * a;
-const squareCPS = (a: number) => new Cont(squareNum(a));
+const squareCPS = (a: number) => new Cont(() => squareNum(a));
 
 const pythCPS = (x: number, y: number) => squareCPS(x)
   .bind(xsq => squareCPS(y)
