@@ -15,8 +15,7 @@ bind(ret('foo'), a => f => f(a))(console.log);
 
 const pyth_cps = (x, y) => 
   bind(square_cps(x), xsq =>
-    bind(square_cps(y), ysq =>
-      bind(add_cps(xsq, ysq), res =>
-        ret(res))));
+  bind(square_cps(y), ysq =>
+  bind(add_cps(xsq, ysq), res => ret(res))));
 
 pyth_cps(1, 3)(console.log);
