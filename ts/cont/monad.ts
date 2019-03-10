@@ -1,7 +1,7 @@
 class Cont<A> {
   constructor(public cont: <R>(x: (v: A) => R) => R) {}
 
-  bind(k: (x: A) => Cont<A>): Cont<A> {
+  bind<B>(k: (x: A) => Cont<B>): Cont<B> {
     return new Cont(x => this.cont(a => k(a).cont(x)));
   }
 
@@ -11,10 +11,10 @@ class Cont<A> {
 }
 
 const addNum = (a: number, b: number) => a + b;
-const addCPS = (a: number, b: number) => Cont.return<number>(addNum(a, b));
+const addCPS = (a: number, b: number) => Cont.return(addNum(a, b));
 
 const squareNum = (a: number) => a * a;
-const squareCPS = (a: number) => Cont.return<number>(squareNum(a));
+const squareCPS = (a: number) => Cont.return(squareNum(a));
 
 const pythCPS = (x: number, y: number) => squareCPS(x)
   .bind(xsq => squareCPS(y)
