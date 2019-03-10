@@ -26,7 +26,13 @@ const squareCPS = (a: number) => new Cont(() => squareNum(a));
 
 const pythCPS = (x: number, y: number) => squareCPS(x)
   .bind(xsq => squareCPS(y)
-  .bind(ysq => addCPS(xsq, ysq)
-  .bind(res => Cont.return(res))));
+  .bind(ysq => {
+    console.log('Compute')
+    return addCPS(xsq, ysq)
+    .bind(res => Cont.return(res))
+  }));
 
-pythCPS(1, 3).runCont(console.log);
+const a = pythCPS(1, 3)
+
+console.log('Beginning');
+a.runCont(console.log);
