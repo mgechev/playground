@@ -37,7 +37,7 @@ explicit().cont(console.log.bind(console, 'Declaration:'));
 // Call twice
 
 const callTwice = () => Cont.return(3)
-  .bind(n1 => new Cont<number>(f => f(2) as any + f(3))
+  .bind(n1 => new Cont<number>((f: (v: number) => any) => f(2) + f(3))
   .bind(n2 => Cont.return(n1 + n2)));
 
 callTwice().cont(console.log.bind(console, 'Twice:'));
@@ -45,8 +45,8 @@ callTwice().cont(console.log.bind(console, 'Twice:'));
 // Emulate list
 
 const emulateList = () => Cont.return(1)
-  .bind(n1 => new Cont(f => (f(10) as any).concat(f(11)))
-  .bind(n2 => Cont.return(n1 as any + n2)));
+  .bind(n1 => new Cont<number>((f: (v: number) => any) => f(10).concat(f(11)))
+  .bind(n2 => Cont.return(n1 + n2)));
 
 console.log('List:', emulateList().cont(l => [l]));
 
