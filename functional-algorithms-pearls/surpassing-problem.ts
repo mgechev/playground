@@ -78,9 +78,8 @@ console.log(msc2(arr.slice()));
 
 
 /********************************************************************/
-// A more functional approach which produces the
-// result for O(n log n). This solution is described
-// in Pearls of Functional Algorithm Design.
+// A more functional approach which produces the result for O(n log n).
+// This solution is described in Pearls of Functional Algorithm Design.
 import { length } from './utils';
 
 const msc3 = (arr: number[]) => {
