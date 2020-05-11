@@ -27,10 +27,10 @@ console.log(imperativeSolution1(arr.slice()));
 
 
 
-import { range, head, difference, length } from './utils';
-
 /********************************************************************/
 // Functional solution with complexity O(n^2)
+import { range, head, difference, length } from './utils';
+
 const functionalSolution1 = (arr: number[]) => head(difference(range(0, length(arr) + 1), arr));
 
 console.log(functionalSolution1(arr.slice()));
@@ -61,3 +61,30 @@ const checklist = (arr: number[]) =>
 
 const functionalSolution2 = (arr: number[]) => compose(search, checklist)(arr);
 console.log(functionalSolution2(arr.slice()));
+/********************************************************************/
+
+
+
+
+/********************************************************************/
+// Functional solution with complexity Θ(n)
+import { partition } from './utils';
+
+const functionalSolution3 = (arr: number[]) => {
+  const minFrom = (a: number, n: number, arr: number[]): number => {
+    if (n === 0) {
+      return a;
+    }
+    const b = a + 1 + Math.floor(n / 2);
+    const [us, vs] = partition(arr, e => e < b);
+    const m = length(us);
+    if (m === b - a) {
+      return minFrom(b, n - m, vs);
+    }
+    return minFrom(a, m, us);
+  };
+  return minFrom(0, length(arr), arr);
+};
+
+console.log(functionalSolution3(arr.slice()));
+/********************************************************************/

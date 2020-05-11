@@ -110,3 +110,16 @@ export const accumArray = <T, V>(fn: (a: T, b: V) => V, s: V, range: [number, nu
 };
 
 export const map = <T, V>(arr: T[], fn: (a: T) => V): V[] => arr.map(fn);
+
+export const partition = <T>(arr: T[], predicate: (e: T) => boolean): [T[], T[]] => {
+  const us = [];
+  const vs = [];
+  for (const el of arr) {
+    if (predicate(el)) {
+      us.push(el);
+    } else {
+      vs.push(el);
+    }
+  }
+  return [us, vs];
+};
