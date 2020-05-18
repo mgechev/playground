@@ -1,3 +1,12 @@
+/**
+ * Problem from Pearls of Functional Algorithm Design
+ *
+ * In a 2D array with both columns and rows
+ * containing increasing integers, find a
+ * specified value n.
+ */
+
+
 const arr = [
   [11, 21, 31, 41, 51],
   [12, 22, 32, 42, 52],
@@ -6,6 +15,8 @@ const arr = [
   [15, 25, 35, 45, 55],
 ];
 
+//********************************************************************/
+// Imperative solution which has complexity O(m + n);
 const imperative = (arr: number[][], el: number) => {
   if (arr.length === 0) {
     return undefined;
@@ -33,7 +44,14 @@ console.log(imperative(arr, 54));
 console.log(imperative(arr, 51));
 console.log(imperative(arr, 55));
 console.log(imperative(arr, 56));
+/********************************************************************/
 
+
+
+
+//********************************************************************/
+// Imperative solution with improved complexity. Here we first
+// find a sub-rectangle with binary search.
 const imperativeImproved = (arr: number[][], el: number) => {
   const binarySearch = (getElement:(i: number) => number, length: number) => {
     let min = 0;
