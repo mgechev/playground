@@ -1,8 +1,6 @@
-// https://leetcode.com/problems/3sum-closest/submissions/
+// https://leetcode.com/problems/3sum-closest/
 /**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
+ * Suboptimal
  */
 const threeSumClosest = (nums, target) => {
   let closest = Infinity;
@@ -13,6 +11,32 @@ const threeSumClosest = (nums, target) => {
         if (Math.abs(closest - target) > Math.abs(sum - target)) {
           closest = sum;
         }
+      }
+    }
+  }
+  return closest;
+};
+
+/**
+ * Optimal
+ */
+const threeSumClosest = (nums, target) => {
+  let closest = Infinity;
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length; i++) {
+    let low = i + 1;
+    let high = nums.length - 1;
+    while (low < high) {
+      const sum = nums[i] + nums[low] + nums[high];
+      if (Math.abs(sum - target) < Math.abs(closest - target)) {
+        closest = sum;
+      }
+      if (sum - target === 0) {
+        return sum;
+      } else if (sum > target) {
+        high--;
+      } else {
+        low++;
       }
     }
   }
