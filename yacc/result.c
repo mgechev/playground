@@ -98,7 +98,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 102 "y.tab.c"
+#line 102 "result.c"
 
 #ifdef short
 # undef short
@@ -1279,7 +1279,7 @@ yyreduce:
     {
       
 /* Line 1267 of yacc.c.  */
-#line 1283 "y.tab.c"
+#line 1283 "result.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
