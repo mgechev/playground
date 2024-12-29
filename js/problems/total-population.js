@@ -28,3 +28,29 @@ const maximumPopulation = (logs) => {
     return answer;
 };
 
+
+// Slower version
+/**
+ * @param {number[][]} logs
+ * @return {number}
+ */
+const maximumPopulation2 = (logs) => {
+    let min = 1950;
+    let max = 2050;
+
+    let maxPopulation = -Infinity;
+    let maxYear = 1950;
+    for (let i = min; i < max; i++) {
+        let total = 0;
+        for (const [start, end] of logs) {
+            if (i >= start && i < end) {
+                total++;
+            }
+        }
+        if (maxPopulation < total) {
+            maxYear = i;
+            maxPopulation = total;
+        }
+    }
+    return maxYear;
+};
