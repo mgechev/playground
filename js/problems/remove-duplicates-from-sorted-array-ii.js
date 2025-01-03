@@ -25,3 +25,27 @@ const removeDuplicates = nums => {
     }
     return k;
 };
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const removeDuplicates2 = nums => {
+    let i = 1;
+    let count = 1;
+    let j = 1;
+    while (j < nums.length) {
+        if (nums[j] === nums[j - 1]) {
+            count++;
+        } else {
+            count = 1;
+        }
+
+        if (count <= 2) {
+            nums[i++] = nums[j];
+        }
+        j++;
+    }
+    return i;
+};
