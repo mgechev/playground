@@ -1,13 +1,37 @@
-import { effect } from './signal.js';
+import { effect, computed } from './signal.js';
 
-const render = html => {
-  document.body.innerHTML = html;
+export let render = (root, element) => {
+  render = () => {
+    element.innerHTML = renderComponent(root);
+  };
+  render();
 };
 
 export const component = fn => {
-  const renderFn = fn();
   effect(() => {
-    const result = renderFn();
-    render(result);
+    fn.dirty = true;
+    schedule();
   });
+  return fn();
 };
+
+
+let pending = false;
+const schedule = () => {
+  if (pending) {
+    return;
+  }
+  requestAnimationFrame(() => {
+    pending = false;
+    render();
+  });
+  pending = true;
+};
+
+const renderComponent = node => {
+  if (typeof node === 'function') {
+    return node();
+  }
+  return node.map(renderComponent).join('');
+};
+
