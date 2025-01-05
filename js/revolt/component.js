@@ -2,7 +2,11 @@ import { effect, computed } from './signal.js';
 
 export let render = (root, element) => {
   render = () => {
-    element.innerHTML = renderComponent(root);
+    while (element.childNodes.length) {
+      element.removeChild(element.firstChild);
+    }
+    const children = renderComponent(root);
+    children.forEach(c => element.appendChild(c));
   };
   render();
 };
@@ -32,6 +36,6 @@ const renderComponent = node => {
   if (typeof node === 'function') {
     return node();
   }
-  return node.map(renderComponent).join('');
+  return node.map(renderComponent).flat();
 };
 

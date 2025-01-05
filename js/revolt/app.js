@@ -2,7 +2,14 @@ import { signal, component, render } from './revolt.js';
 
 const Checkbox = component(() => {
   const checked = signal(false);
-  return () => `<input type="checkbox" ${checked() ? 'checked' : 'unchecked'}>`;
+  const toggle = () => checked.set(!checked());
+  return () => {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = checked();
+    checkbox.onclick = toggle;
+    return checkbox;
+  };
 });
 
 const App = component(() => {
@@ -12,7 +19,7 @@ const App = component(() => {
   }, 1000);
   return [
     Checkbox,
-    () => `Timer: ${state()}`
+    () => document.createTextNode(`Timer: ${state()}`)
   ];
 });
 
