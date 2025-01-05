@@ -17,7 +17,7 @@ const _notify = identity => {
   }
 };
 
-const signal = value => {
+export const signal = value => {
   const identity = Symbol();
 
   const get = () => {
@@ -32,33 +32,16 @@ const signal = value => {
   return get;
 };
 
-const effect = cb => {
+export const effect = cb => {
   _ctx = cb;
   cb();
 };
 
-const computed = cb => {
+export const computed = cb => {
   const computable = () => {
     _ctx = computable;
     return cb();
   };
   return computable;
 };
-
-const a = signal(42);
-const b = signal(28);
-
-const sum = computed(() => {
-  console.log('Rerun');
-  return a() + b();
-});
-
-console.log(sum());
-
-effect(() => {
-  console.log('Effect:', a(), b());
-});
-
-a.set(1.618);
-b.set(13);
 
