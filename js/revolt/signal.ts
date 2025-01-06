@@ -1,4 +1,4 @@
-let _ctx = null;
+let _ctx: (() => void) | null = null;
 let _subscriptions = new WeakMap();
 
 const _subscribe = identity => {
@@ -12,6 +12,7 @@ const _subscribe = identity => {
 
 const _notify = identity => {
   const subs = _subscriptions.get(identity);
+  if (!subs) return;
   for (const sub of subs) {
     sub();
   }
