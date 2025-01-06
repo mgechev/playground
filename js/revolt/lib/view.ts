@@ -22,7 +22,7 @@ export interface DOMElement {
 
 export type DOMNode = Binding | DOMElement | When | For<any>;
 
-export type View = DOMNode | DOMNode[] | When;
+export type View = DOMNode | DOMNode[] | View[];
 
 export type Component = (() => View) & { dirty?: boolean };
 

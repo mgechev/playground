@@ -72,7 +72,7 @@ const TodoApp = (): View => {
   ];
 };
 
-const App = () => {
+const App = (): View => {
   const state = signal(0);
   const bgColor = signal("red");
 
