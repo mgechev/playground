@@ -20,18 +20,18 @@ const TodoApp = (): View => {
       return;
     }
     todos.set([...todos(), inputElement.value]);
-    inputElement.value = '';
+    inputElement.value = "";
   };
 
   return [
     {
-      name: 'h1',
-      children: 'Todo App'
+      name: "h1",
+      children: "Todo App",
     },
     {
-      name: 'input',
+      name: "input",
       attributes: {
-        type: 'text'
+        type: "text",
       },
       ref(input: Element) {
         inputElement = input as HTMLInputElement;
@@ -39,18 +39,18 @@ const TodoApp = (): View => {
       events: {
         keydown(e: Event) {
           const event = e as KeyboardEvent;
-          if (event.code === 'Enter') {
-            addTodo()
+          if (event.code === "Enter") {
+            addTodo();
           }
-        }
-      }
+        },
+      },
     },
     {
-      name: 'button',
-      children: 'Add todo',
+      name: "button",
+      children: "Add todo",
       events: {
-        click: addTodo
-      }
+        click: addTodo,
+      },
     },
     {
       name: "ul",
@@ -62,7 +62,7 @@ const TodoApp = (): View => {
             children: item,
             events: {
               click() {
-                todos.set(todos().filter(t => t !== item));
+                todos.set(todos().filter((t) => t !== item));
               },
             },
           };
@@ -109,5 +109,4 @@ const App = () => {
   };
 };
 
-// render(App(), document.body);
-render(TodoApp(), document.body);
+render(App(), document.body);
