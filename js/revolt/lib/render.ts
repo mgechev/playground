@@ -1,31 +1,13 @@
-import { effect, computed } from './signal.js';
-
-export type Binding = string | (() => string);
-export type Action = () => void;
-
-export interface When {
-  condition: () => boolean;
-  then: View;
-  else?: View;
-}
-
-export interface For<T> {
-  collection: T[];
-  result: (item: T) => DOMElement[];
-}
-
-export interface DOMElement {
-  name: string;
-  attributes?: Record<string, string|(() => false|string)>;
-  children?: View;
-  events?: Record<string, Action>;
-}
-
-export type DOMNode = Binding | DOMElement | When;
-
-export type View = DOMNode | DOMNode[] | When;
-
-export type Component = (() => View) & { dirty?: boolean };
+import { effect } from "./signal";
+import {
+  DOMElement,
+  For,
+  isConditional,
+  isDynamicBinding,
+  isIterator,
+  View,
+  When,
+} from "./view";
 
 export const render = (view: View, root: Element): Node | Node[] => {
   if (isConditional(view)) {
@@ -38,12 +20,15 @@ export const render = (view: View, root: Element): Node | Node[] => {
     }
     return result as any;
   }
-  if (typeof view === 'string') {
+  if (isIterator(view)) {
+    return renderIterator(view, root);
+  }
+  if (typeof view === "string") {
     const node = document.createTextNode(view);
     root.append(node);
     return node;
   }
-  if (typeof view === 'function') {
+  if (typeof view === "function") {
     return renderDynamicText(view, root);
   }
   return renderElement(view, root);
@@ -54,31 +39,38 @@ const renderDynamicText = (view, root) => {
   effect(() => {
     const text = view();
     node.textContent = text;
-  })
+  });
   root.append(node);
   return node;
 };
 
 const renderCondition = (view: When, root: Element) => {
-  const result = view.condition();
-    let dom: Node | Node[] | undefined;
+  let dom: Node | Node[] | undefined;
+  effect(() => {
+    const result = view.condition();
+    if (dom) {
+      destroy(dom);
+    }
     if (result) {
       dom = render(view.then, root);
     } else if (view.else) {
       dom = render(view.else, root);
     }
-    effect(() => {
-      const result = view.condition();
-      if (dom) {
-        destroy(dom);
-      }
-      if (result) {
-        dom = render(view.then, root);
-      } else if (view.else) {
-        dom = render(view.else, root);
-      }
-    });
-    return dom ?? [];
+  });
+  return dom ?? [];
+};
+
+const renderIterator = (view: For<any>, root: Element) => {
+  let collection = view.collection();
+  let result: Node | Node[] | undefined;
+  effect(() => {
+    collection = view.collection();
+    if (result) {
+      destroy(result);
+    }
+    result = render(collection.map(view.items), root);
+  });
+  return result ?? [];
 };
 
 const renderElement = (view: DOMElement, root: Element) => {
@@ -101,29 +93,18 @@ const renderElement = (view: DOMElement, root: Element) => {
   for (const event in view.events) {
     element.addEventListener(event, view.events[event]);
   }
+  (element as any).view = view;
   root.append(element);
   if (view.children) {
     render(view.children, element);
   }
+  if (view.ref) {
+    view.ref(element);
+  }
   return element;
 };
 
-export const isElement = (node: any) => {
-  return node.name !== undefined;
-};
-
-export const isDynamicBinding = (binding: string|(() => false|string)): binding is (() => false|string) => {
-  return typeof binding === 'function';
-};
-
-export const isConditional = (node: any): node is When => {
-  return node.condition !== undefined;
-};
-
-export const isIterator = (node: any): node is For<any> => {
-  return node.collection !== undefined;
-};
-
+// Clean up events and signal subscriptions
 const destroy = (node: Node | Node[]) => {
   if (node instanceof Array) {
     for (const child of node) {
@@ -131,5 +112,12 @@ const destroy = (node: Node | Node[]) => {
     }
   } else {
     node.parentElement?.removeChild(node);
+    const view = (node as any)?.view;
+    if (!view) {
+      return;
+    }
+    for (const event in view.events) {
+      node.removeEventListener(event, view.events[event]);
+    }
   }
 };
