@@ -1,5 +1,16 @@
 import { signal, render } from "./revolt.js";
 
+const Checkbox = (checked: () => string|false) => {
+
+  return {
+    name: 'input',
+    attributes: {
+      type: 'checkbox',
+      checked: checked
+    }
+  };
+};
+
 const App = () => {
   const state = signal(0);
   const bgColor = signal("red");
@@ -21,6 +32,12 @@ const App = () => {
         },
         children: [() => `Timer: ${state()}`],
       },
+      Checkbox(() => state() % 2 === 0 ? 'checked' : false),
+      {
+        condition: () => state() % 2 === 0,
+        then: 'Even',
+        else: 'Odd'
+      }
     ],
     events: {
       click: () => {
