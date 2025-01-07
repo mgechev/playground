@@ -19,7 +19,7 @@ const _notify = identity => {
 };
 
 export const signal = value => {
-  const identity = Symbol();
+  let identity: Symbol | undefined = Symbol();
 
   const get = () => {
     _subscribe(identity);
@@ -30,6 +30,11 @@ export const signal = value => {
     value = newValue;
     _notify(identity);
   };
+
+  get.destroy = () => {
+    identity = undefined;
+  };
+
   return get;
 };
 
