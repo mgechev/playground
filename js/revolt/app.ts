@@ -1,18 +1,26 @@
-import { signal, render } from "./lib";
-import { View } from "./lib/view";
+import { signal, render, View, For } from "./lib";
 
-const Checkbox = (checked: () => string | false) => {
+const Massive = (): View => {
+  const arr = new Array(10000).fill('0');
+
+  return {
+    name: 'div',
+    children: arr
+  }
+};
+
+const Checkbox = (checked: () => string | false): View => {
   return {
     name: "input",
     attributes: {
       type: "checkbox",
-      checked: checked,
+      checked
     },
   };
 };
 
 const TodoApp = (): View => {
-  const todos = signal(["Buy milk", "Create a framework"]);
+  const todos = signal<string[]>(["Buy milk", "Create a framework"]);
   let inputElement: HTMLInputElement | undefined;
 
   const addTodo = () => {
@@ -42,7 +50,7 @@ const TodoApp = (): View => {
           if (event.code === "Enter") {
             addTodo();
           }
-        },
+        }
       },
     },
     {
@@ -67,7 +75,7 @@ const TodoApp = (): View => {
             },
           };
         },
-      },
+      } as For<string>,
     },
   ];
 };
@@ -97,7 +105,7 @@ const App = (): View => {
       Checkbox(() => (state() % 2 === 0 ? "checked" : false)),
       {
         condition: () => state() % 2 === 0,
-        then: "Even",
+        then: Massive(),
         else: "Odd",
       },
     ],

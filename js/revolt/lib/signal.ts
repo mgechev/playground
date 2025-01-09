@@ -1,53 +1,58 @@
-let _ctx: (() => void) | null = null;
-let _subscriptions = new WeakMap();
+const context: any = [];
 
-const _subscribe = identity => {
-  if (!_ctx) {
-    return;
-  }
-  const subs = _subscriptions.get(identity) ?? new Set();
-  subs.add(_ctx);
-  _subscriptions.set(identity, subs);
-};
+export type ReadableSignal<T> = () => T;
 
-const _notify = identity => {
-  const subs = _subscriptions.get(identity);
-  if (!subs) return;
-  for (const sub of subs) {
-    sub();
-  }
-};
+export interface WritableSignal<T> extends ReadableSignal<T> {
+  set(value: T): void;
+}
 
-export const signal = value => {
-  let identity: Symbol | undefined = Symbol();
+export type EffectFn = () => void;
 
-  const get = () => {
-    _subscribe(identity);
+export function signal<T>(value: T): WritableSignal<T> {
+  const subscriptions = new Set<any>();
+
+  const read = (): T => {
+    const running = context[context.length - 1];
+    if (running) {
+      subscriptions.add(running);
+      running.dependencies.add(subscriptions);
+    }
     return value;
   };
 
-  get.set = newValue => {
-    value = newValue;
-    _notify(identity);
+  const set = (nextValue: T) => {
+    value = nextValue;
+    for (const sub of [...subscriptions]) {
+      sub.execute();
+    }
   };
 
-  get.destroy = () => {
-    identity = undefined;
+  (read as any).set = set;
+  return read as WritableSignal<T>;
+}
+
+function cleanup(running) {
+  for (const dep of running.dependencies) {
+    dep.delete(running);
+  }
+  running.dependencies.clear();
+}
+
+export function effect(fn: EffectFn) {
+  const execute = () => {
+    cleanup(running);
+    context.push(running);
+    try {
+      fn();
+    } finally {
+      context.pop();
+    }
   };
 
-  return get;
-};
-
-export const effect = cb => {
-  _ctx = cb;
-  cb();
-};
-
-export const computed = cb => {
-  const computable = () => {
-    _ctx = computable;
-    return cb();
+  const running: any = {
+    execute,
+    dependencies: new Set()
   };
-  return computable;
-};
 
+  execute();
+}

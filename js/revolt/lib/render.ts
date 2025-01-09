@@ -1,6 +1,6 @@
 import { effect } from "./signal";
 import {
-  DOMElement,
+  ElementConfig,
   For,
   isConditional,
   isDynamicBinding,
@@ -13,15 +13,15 @@ export const render = (view: View, root: Element): Node | Node[] => {
   if (isConditional(view)) {
     return renderCondition(view, root);
   }
-  if (view instanceof Array) {
-    const result: (Node | Node[])[] = [];
-    for (const child of view) {
-      result.push(render(child, root));
-    }
-    return result as any;
-  }
   if (isIterator(view)) {
     return renderIterator(view, root);
+  }
+  if (view instanceof Array) {
+    const result: Node[] = [];
+    for (const child of view) {
+      result.push(render(child, root) as Node);
+    }
+    return result;
   }
   if (typeof view === "string") {
     const node = document.createTextNode(view);
@@ -73,7 +73,7 @@ const renderIterator = (view: For<any>, root: Element) => {
   return result ?? [];
 };
 
-const renderElement = (view: DOMElement, root: Element) => {
+const renderElement = (view: ElementConfig, root: Element) => {
   const element = document.createElement(view.name);
   for (const attribute in view.attributes) {
     const binding = view.attributes[attribute];
@@ -104,7 +104,6 @@ const renderElement = (view: DOMElement, root: Element) => {
   return element;
 };
 
-// Clean up events and signal subscriptions
 const destroy = (node: Node | Node[]) => {
   if (node instanceof Array) {
     for (const child of node) {

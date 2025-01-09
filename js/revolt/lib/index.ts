@@ -1,3 +1,4 @@
-export {signal, effect} from './signal.js';
-export {render} from './render.js';
+export {signal, effect} from './signal';
+export {render} from './render';
+export {View, For, When} from './view';
 
