@@ -75,7 +75,7 @@ const TodoApp = (): View => {
             },
           };
         },
-      } as For<string>,
+      }
     },
   ];
 };

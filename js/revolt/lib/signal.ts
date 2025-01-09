@@ -1,3 +1,5 @@
+// Ryan's implementation from https://dev.to/ryansolid/building-a-reactive-library-from-scratch-1i0p
+
 const context: any = [];
 
 export type ReadableSignal<T> = () => T;
