@@ -23,4 +23,14 @@ const maxProfit = (prices, day = 0, profit = 0, cache = {}) => {
     return max;
 };
 
+// Optimal approach
+const maxProfit2 = prices => {
+    let max = 0;
+    for (let i = 1; i < prices.length; i++) {
+        if (prices[i] > prices[i - 1]) {
+            max += prices[i] - prices[i - 1];
+        }
+    }
+    return max;
+};
 
