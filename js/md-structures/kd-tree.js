@@ -1,3 +1,29 @@
+/**
+ * 
+ * Episode outline:
+ * 
+ * 1. Indexes and why are they useful
+ * 2. Reminder about binary search trees
+ * 3. What if we have multiple dimensions?
+ * 4. Introducing KD-trees
+ * 5. Building a KD-tree
+ * 6. Searching for the nearest neighbor
+ * 8. Application: nearest neighbor search:
+ *  - K-nearest neighbors
+ * - Range search
+ * - Approximate nearest neighbor
+ * 9. Pros and cons
+ *   - Pros:
+ *    - Efficient for low-dimensional data
+ *    - Easy to implement
+ *    - Simple to understand
+ *  - Cons:
+ *    - Inefficient for high-dimensional data
+ *    - Hard to balance
+ *    - Hard to update
+ * 10. Summary
+ */
+
 class KDNode {
   constructor(point, dimension) {
     this.point = point;
