@@ -52,3 +52,37 @@ const findRepeatedDnaSequences2 = s => {
     }
     return Array.from(result);
 };
+
+// Optimal with Trie
+class Trie {
+    constructor() {
+        this.data = {};
+    }
+    insert(str) {
+        let start = 0;
+        let node = this.data;
+        let exists = false;
+        while (start < str.length) {
+            const current = str[start];
+            if (!node[current]) {
+                exists = true;
+                node[current] = {};
+            }
+            node = node[current];
+            start++;
+        }
+        return exists;
+    }
+}
+
+const findRepeatedDnaSequences3 = s => {
+    const result = new Set();
+    const trie = new Trie();
+    for (let i = 0; i < s.length - 9; i++) {
+        const substr = s.substring(i, i + 10);
+        if (!trie.insert(substr)) {
+            result.add(substr);
+        }
+    }
+    return Array.from(result);
+};
