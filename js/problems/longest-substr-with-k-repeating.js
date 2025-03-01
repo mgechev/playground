@@ -22,3 +22,37 @@ const longestSubstring = (s, k) => {
     }
     return max;
 };
+
+// Working solution
+const longestSubstring = (s, k) => {
+    if (s.length === 0) {
+        return 0;
+    }
+    const freq = {};
+    for (let i = 0; i < s.length; i++) {
+        freq[s[i]] = freq[s[i]] || [];
+        freq[s[i]].push(i);
+    }
+    let split = [-1, s.length];
+    let totalLess = 0;
+    for (const c in freq) {
+        if (freq[c].length < k) {
+            split = split.concat(freq[c])
+            totalLess++;
+        }
+    }
+    if (totalLess >= Object.keys(freq).length) {
+        return 0;
+    }
+    if (totalLess === 0) {
+        return s.length;
+    }
+    split.sort((a, b) => a - b);
+    let max = 0;
+    for (let i = 0; i < split.length - 1; i++) {
+        const length = longestSubstring(s.substring(split[i] + 1, split[i + 1]), k);
+        max = Math.max(length, max);
+    }
+    return max;
+};
+
