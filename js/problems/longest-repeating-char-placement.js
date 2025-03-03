@@ -54,3 +54,29 @@ const findMaxExtension = (s, left, right, k, char, extra) => {
     return Math.max(...results);
 };
 
+
+const characterReplacement = (s, k) => {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    let max = 0;
+    for (const letter of letters) {
+        let left = 0;
+        let right = 0;
+        let replaced = 0;
+        while (right < s.length) {
+            if (s[right] === letter) {
+                right++;
+            } else if (replaced < k) {
+                replaced++;
+                right++;
+            } else if (s[left] === letter) {
+                left++;
+            } else {
+                left++;
+                replaced--;
+            }
+            max = Math.max(max, right - left);
+        }
+    }
+    return max;
+};
+
