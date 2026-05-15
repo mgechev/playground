@@ -11,7 +11,7 @@ const search = (is, i) => {
         } else if (e[0] < i[0]) {
             left = mid + 1;
         } else {
-            right = mid - 1;
+            right = mid;
         }
     }
     return left;
